@@ -1,5 +1,8 @@
 # lanit-test
 
+### Node version
+v14.18.0
+
 ## Project setup
 ```
 npm install

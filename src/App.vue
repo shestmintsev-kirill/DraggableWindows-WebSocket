@@ -1,30 +1,37 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+    <section>
+        <nav class="app-nav">
+            <router-link class="link" to="/desk">Desk</router-link>
+            <router-link class="link" to="/blockchain">Websocket</router-link>
+        </nav>
+        <router-view />
+    </section>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+@import '@/style/Reset.scss';
 
-#nav {
-  padding: 30px;
+.app-nav {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgb(179, 179, 179);
+    box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    z-index: 100;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    .link {
+        color: black;
+        transition: 0.2s;
 
-    &.router-link-exact-active {
-      color: #42b983;
+        &:hover {
+            color: #fff;
+        }
     }
-  }
 }
 </style>
