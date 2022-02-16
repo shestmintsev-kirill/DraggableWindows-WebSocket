@@ -12,22 +12,26 @@
     </section>
 </template>
 
-<script>
+<script lang="ts">
 import BlockchainTable from '@/components/BlockchainTable.vue';
-import { connectWS, socket, closeWS, subscribeToTransactionsOnWs, unsubscribeFromTransactionsOnWs } from '../api';
+import {transactionType, dataType} from '@/types/types'
+import { defineComponent } from 'vue';
+import { connectWS, socket, closeWS, subscribeToTransactionsOnWs, unsubscribeFromTransactionsOnWs } from '@/api';
 
-export default {
+export default defineComponent({
     name: 'Blockchain',
     components: {
         BlockchainTable
     },
-    data: () => ({
-        transactions: [],
-        sumValue: 0
-    }),
+    data: () =>
+        ({
+            transactions: [] as transactionType[],
+            sumValue: 0
+        } as dataType),
+
     computed: {
-        fixedSumValue() {
-            return this.transactions.length ? this.sumValue.toFixed(4) : 0;
+        fixedSumValue(): number {
+            return this.transactions.length ? Number(this.sumValue.toFixed(4)) : 0;
         }
     },
     created() {
@@ -49,20 +53,20 @@ export default {
             this.transactions = [];
             this.sumValue = 0;
         },
-        setTransactionsHandler(event) {
+        setTransactionsHandler(event: { data: string }) {
             const { inputs, out, size } = JSON.parse(event.data).x;
             if (inputs) {
                 const transaction = {
-                    fromAddr: inputs.map(i => i.prev_out.addr),
-                    toAddr: out.map(i => i.addr),
-                    value: size / 10000
+                    fromAddr: inputs.map((i: { prev_out: { addr: string } }) => i.prev_out.addr),
+                    toAddr: out.map((i: { addr: string }) => i.addr),
+                    value: (size / 10000) as number
                 };
-                this.sumValue += size / 10000;
+                this.sumValue += size / 10000 as number;
                 this.transactions.push(transaction);
             }
         }
     }
-};
+});
 </script>
 
 <style lang="scss" scoped>

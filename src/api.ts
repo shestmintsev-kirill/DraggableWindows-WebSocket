@@ -1,4 +1,4 @@
-export let socket = null
+export let socket: null | WebSocket = null;
 
 const cleanUp = () => {
     socket?.removeEventListener('close', closeHendler);
@@ -10,19 +10,19 @@ export const connectWS = () => {
     cleanUp();
     closeWS();
     socket = new WebSocket(`wss://ws.blockchain.info/inv`);
-    socket.addEventListener('close', closeHendler);
-    socket.addEventListener('open', openHandler);
-    socket.addEventListener('error', errorHandler);
-}
+    socket?.addEventListener('close', closeHendler);
+    socket?.addEventListener('open', openHandler);
+    socket?.addEventListener('error', errorHandler);
+};
 
-const sendToWebSocket = (message) => {
+const sendToWebSocket = (message: { op: string }) => {
     const stringifiedMessage = JSON.stringify(message);
-    if (socket.readyState === WebSocket.OPEN) {
+    if (socket?.readyState === WebSocket.OPEN) {
         socket.send(stringifiedMessage);
     }
-}
+};
 
-const closeHendler = (event) => {
+const closeHendler = (event: { wasClean: any }) => {
     if (!event.wasClean) {
         console.log('Close WS with Error, connect WS again');
         setTimeout(() => {
@@ -31,28 +31,28 @@ const closeHendler = (event) => {
     } else {
         console.log('close WS clean');
     }
-}
+};
 
 const openHandler = () => {
     console.log('open WS');
-}
+};
 
-const errorHandler = (e) => {
-    console.log("Error WS", e);
-}
+const errorHandler = (e: Event) => {
+    console.log('Error WS', e);
+};
 
 export const closeWS = () => {
     socket?.close();
-}
+};
 
 export const subscribeToTransactionsOnWs = () => {
     sendToWebSocket({
-        op: "unconfirmed_sub"
+        op: 'unconfirmed_sub'
     });
 };
 
 export const unsubscribeFromTransactionsOnWs = () => {
     sendToWebSocket({
-        op: "unconfirmed_unsub"
+        op: 'unconfirmed_unsub'
     });
 };
