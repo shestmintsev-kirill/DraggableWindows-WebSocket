@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import BlockchainTable from '@/components/BlockchainTable.vue';
-import {transactionType, dataType} from '@/types/types'
+import {transactionType, BlockchainDataType} from '@/types/types'
 import { defineComponent } from 'vue';
 import { connectWS, socket, closeWS, subscribeToTransactionsOnWs, unsubscribeFromTransactionsOnWs } from '@/api';
 
@@ -27,7 +27,7 @@ export default defineComponent({
         ({
             transactions: [] as transactionType[],
             sumValue: 0
-        } as dataType),
+        } as BlockchainDataType),
 
     computed: {
         fixedSumValue(): number {

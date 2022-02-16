@@ -4,7 +4,7 @@ export type transactionType = {
   value: number;
 };
 
-export type dataType = {
+export type BlockchainDataType = {
   transactions: transactionType[];
   sumValue: number;
 };
