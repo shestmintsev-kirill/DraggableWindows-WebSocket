@@ -39,7 +39,7 @@ export default {
             default: () => [],
             validator: transactions => {
                 if (!transactions.length) return true;
-                return transactions.includes(t => typeof t === 'object');
+                return transactions.includes((t) => typeof t === 'object');
             }
         }
     }
